@@ -1,6 +1,6 @@
-project: Maccy.xcodeproj
+project: CopyPaste.xcodeproj
 retain_objc_accessible: true
 schemes:
-- Maccy
+- CopyPaste
 targets:
-- Maccy
+- CopyPaste
