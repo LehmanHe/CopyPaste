@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0604E101B53C4FBEBB56AD14 /* CardItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774C7649F994409CA31C372E /* CardItemView.swift */; };
+		AA10000000000000000004AA /* PanelToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA10000000000000000003AA /* PanelToolbarView.swift */; };
+		AA10000000000000000006AA /* PanelStatusCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA10000000000000000005AA /* PanelStatusCardView.swift */; };
+		AA10000000000000000002AA /* ClipboardItemKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA10000000000000000001AA /* ClipboardItemKind.swift */; };
 		0ABDD5122BB47F1E0054963B /* NSWorkspace+ApplicationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */; };
 		2F0EC7792E7727E3003E2EA9 /* HeightReaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7782E7727E3003E2EA9 /* HeightReaderModifier.swift */; };
 		2F0EC77B2E772899003E2EA9 /* PinsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC77A2E772899003E2EA9 /* PinsView.swift */; };
@@ -220,6 +223,9 @@
 		5212BB6C2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 		5212BB6D2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		774C7649F994409CA31C372E /* CardItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardItemView.swift; sourceTree = "<group>"; };
+		AA10000000000000000003AA /* PanelToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelToolbarView.swift; sourceTree = "<group>"; };
+		AA10000000000000000005AA /* PanelStatusCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelStatusCardView.swift; sourceTree = "<group>"; };
+		AA10000000000000000001AA /* ClipboardItemKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardItemKind.swift; sourceTree = "<group>"; };
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		ABC72863283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA00992C256411F90030E697 /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
@@ -635,6 +641,7 @@
 		DA05B50F2C234C1C006980FE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AA10000000000000000001AA /* ClipboardItemKind.swift */,
 				DA05B5132C234DCF006980FE /* HistoryItem.swift */,
 				DA05B5122C234DCF006980FE /* HistoryItemContent.swift */,
 			);
@@ -672,6 +679,8 @@
 		DA19690C2C3EEF9300258481 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AA10000000000000000003AA /* PanelToolbarView.swift */,
+				AA10000000000000000005AA /* PanelStatusCardView.swift */,
 				2F1091D62F2B6E8100F5C454 /* AsyncView.swift */,
 				2FF2E94F2E7808420093D72C /* AppImageView.swift */,
 				774C7649F994409CA31C372E /* CardItemView.swift */,
@@ -1078,6 +1087,9 @@
 			files = (
 				DA19691C2C3F3EAC00258481 /* Collection+Surrounding.swift in Sources */,
 				0604E101B53C4FBEBB56AD14 /* CardItemView.swift in Sources */,
+				AA10000000000000000004AA /* PanelToolbarView.swift in Sources */,
+				AA10000000000000000006AA /* PanelStatusCardView.swift in Sources */,
+				AA10000000000000000002AA /* ClipboardItemKind.swift in Sources */,
 				3F9E47CA07AA48F9BFBD9515 /* SearchSidebarView.swift in Sources */,
 				DA1969142C3F11D600258481 /* PreviewItemView.swift in Sources */,
 				2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */,

@@ -33,14 +33,17 @@ struct HistoryListView: View {
     ScrollView(.horizontal, showsIndicators: false) {
       ScrollViewReader { proxy in
         LazyHStack(spacing: Popup.cardSpacing) {
+          PanelStatusCardView()
+
           ForEach(Array(allVisibleItems.enumerated()), id: \.element.id) { (index, item) in
             let previous = index > 0 ? allVisibleItems[index - 1] : nil
             let next = index < allVisibleItems.count - 1 ? allVisibleItems[index + 1] : nil
             CardItemView(item: item, previous: previous, next: next, index: index)
           }
         }
-        .padding(.horizontal, Popup.cardSpacing)
-        .padding(.vertical, Popup.verticalPadding)
+        .padding(.horizontal, Popup.listHorizontalPadding)
+        .padding(.top, Popup.listTopPadding)
+        .padding(.bottom, Popup.listBottomPadding)
         .task(id: appState.navigator.scrollTarget) {
           guard appState.navigator.scrollTarget != nil else { return }
 
@@ -69,5 +72,23 @@ struct HistoryListView: View {
       }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .overlay {
+      if allVisibleItems.isEmpty {
+        emptyState
+      }
+    }
+  }
+
+  private var emptyState: some View {
+    VStack(spacing: 6) {
+      Image(systemName: searchQuery.isEmpty ? "doc.on.clipboard" : "magnifyingglass")
+        .font(.system(size: 26, weight: .light))
+        .foregroundStyle(.tertiary)
+
+      Text(searchQuery.isEmpty ? LocalizedStringKey("history_empty") : LocalizedStringKey("search_empty"))
+        .font(.system(size: 13))
+        .foregroundStyle(.secondary)
+    }
+    .padding(.bottom, Popup.listBottomPadding)
   }
 }

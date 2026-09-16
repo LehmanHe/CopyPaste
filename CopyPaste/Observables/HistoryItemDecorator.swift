@@ -11,7 +11,16 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   static var previewImageSize: NSSize { NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536) }
-  static var thumbnailImageSize: NSSize { NSSize(width: 340, height: Defaults[.imageMaxHeight]) }
+  // Thumbnails fill the card preview area, sized for retina displays.
+  static var thumbnailImageSize: NSSize {
+    NSSize(width: Popup.cardWidth * 2, height: Popup.cardBodyHeight * 2)
+  }
+
+  private static let relativeTimeFormatter: RelativeDateTimeFormatter = {
+    let formatter = RelativeDateTimeFormatter()
+    formatter.unitsStyle = .short
+    return formatter
+  }()
 
   let id = UUID()
 
@@ -40,6 +49,37 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   var hasImage: Bool { item.image != nil }
+
+  @ObservationIgnored
+  private(set) lazy var kind: ClipboardItemKind = Self.detectKind(item)
+
+  var relativeTime: String {
+    Self.relativeTimeFormatter.localizedString(for: item.lastCopiedAt, relativeTo: .now)
+  }
+
+  /// Short description of the content shown at the bottom of a card.
+  var subtitle: String? {
+    switch kind {
+    case .text:
+      return String(format: NSLocalizedString("character_count", comment: ""), item.previewableText.count)
+    case .link:
+      return item.previewableText.trimmingCharacters(in: .whitespacesAndNewlines)
+    case .file:
+      return String(format: NSLocalizedString("file_count", comment: ""), item.fileURLs.count)
+    case .color:
+      return title
+    case .image:
+      return imageDimensions
+    }
+  }
+
+  var imageDimensions: String? {
+    guard let size = imagePixelSize else { return nil }
+    return "\(Int(size.width)) × \(Int(size.height))"
+  }
+
+  @ObservationIgnored
+  private var imagePixelSize: NSSize?
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
@@ -129,7 +169,46 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     guard let image = item.image else {
       return
     }
+    if let representation = image.representations.first {
+      imagePixelSize = NSSize(width: representation.pixelsWide, height: representation.pixelsHigh)
+    }
     thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
+  }
+
+  private static func detectKind(_ item: HistoryItem) -> ClipboardItemKind {
+    if item.imageData != nil {
+      return .image
+    }
+
+    if !item.fileURLs.isEmpty {
+      return .file
+    }
+
+    let title = item.title.trimmingCharacters(in: .whitespacesAndNewlines)
+
+    if ColorImage.from(title) != nil {
+      return .color
+    }
+
+    if isLink(title) {
+      return .link
+    }
+
+    return .text
+  }
+
+  private static func isLink(_ string: String) -> Bool {
+    guard !string.isEmpty,
+          string.count < 2048,
+          !string.contains(where: \.isWhitespace),
+          let url = URL(string: string),
+          let scheme = url.scheme?.lowercased(),
+          ["http", "https", "ftp", "ftps"].contains(scheme),
+          url.host?.isEmpty == false else {
+      return false
+    }
+
+    return true
   }
 
   @MainActor

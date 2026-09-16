@@ -11,8 +11,8 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
     return NSLocalizedString("PopupAtScreenBottom", tableName: "AppearanceSettings", comment: "")
   }
 
-  static let panelHeight: CGFloat = 230
-  static let horizontalMargin: CGFloat = 8
+  static let panelHeight: CGFloat = 284
+  static let horizontalMargin: CGFloat = 12
 
   func origin(size: NSSize, statusBarButton: NSStatusBarButton?) -> NSPoint {
     let screen = NSScreen.forPopup ?? NSScreen.main ?? NSScreen.screens.first

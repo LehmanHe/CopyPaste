@@ -18,18 +18,7 @@ struct ContentView: View {
 
       KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
         VStack(spacing: 0) {
-          if appState.searchVisible {
-            SearchFieldView(placeholder: "search_placeholder", query: $appState.history.searchQuery)
-              .focused($searchFocused)
-              .frame(maxWidth: 360)
-              .padding(.top, 10)
-              .padding(.bottom, 4)
-              .onChange(of: scenePhase) {
-                if scenePhase == .background && !appState.history.searchQuery.isEmpty {
-                  appState.history.searchQuery = ""
-                }
-              }
-          }
+          PanelToolbarView(searchFocused: $searchFocused)
 
           HistoryListView(
             searchQuery: $appState.history.searchQuery,
@@ -38,7 +27,11 @@ struct ContentView: View {
         }
         .animation(.default.speed(3), value: appState.history.items)
         .animation(.default.speed(3), value: appState.history.pasteStack?.id)
-        .padding(.horizontal, Popup.horizontalPadding)
+        .onChange(of: scenePhase) {
+          if scenePhase == .background && !appState.history.searchQuery.isEmpty {
+            appState.history.searchQuery = ""
+          }
+        }
         .onAppear {
           searchFocused = true
         }

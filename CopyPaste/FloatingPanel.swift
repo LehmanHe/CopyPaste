@@ -5,6 +5,8 @@ import SwiftUI
 class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   var isPresented: Bool = false
   var statusBarButton: NSStatusBarButton?
+  // Menus take over event tracking, the panel must survive until they are dismissed.
+  var isMenuPresented: Bool = false
   let onClose: () -> Void
 
   override var isMovable: Bool {
@@ -52,7 +54,10 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       rootView: view()
         .ignoresSafeArea()
     )
-    contentView?.layer?.cornerRadius = Popup.cornerRadius + Popup.horizontalPadding
+    contentView?.wantsLayer = true
+    contentView?.layer?.cornerRadius = Popup.panelCornerRadius
+    contentView?.layer?.cornerCurve = .continuous
+    contentView?.layer?.masksToBounds = true
   }
 
   func toggle(height: CGFloat, at popupPosition: PopupPosition = .bottom) {
@@ -75,7 +80,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   // Close automatically when out of focus, e.g. outside click.
   override func resignKey() {
     super.resignKey()
-    if NSApp.alertWindow == nil {
+    if NSApp.alertWindow == nil && !isMenuPresented {
       close()
     }
   }

@@ -28,8 +28,21 @@ class Popup {
     22
   }
 
-  static let cardWidth: CGFloat = 180
-  static let cardSpacing: CGFloat = 8
+  static let panelCornerRadius: CGFloat = 18
+  static let toolbarHeight: CGFloat = 44
+
+  static let cardWidth: CGFloat = 228
+  static let cardSpacing: CGFloat = 26
+  static let cardCornerRadius: CGFloat = 16
+  static let cardHeaderHeight: CGFloat = 46
+  static let listTopPadding: CGFloat = 8
+  static let listHorizontalPadding: CGFloat = 22
+  static let listBottomPadding: CGFloat = 22
+
+  static var cardHeight: CGFloat {
+    PopupPosition.panelHeight - toolbarHeight - listTopPadding - listBottomPadding
+  }
+  static var cardBodyHeight: CGFloat { cardHeight - cardHeaderHeight }
 
   var needsResize = false
   var height: CGFloat = PopupPosition.panelHeight

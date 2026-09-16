@@ -19,6 +19,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
 
+  private(set) var filter: HistoryFilter = .all
+
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
@@ -91,14 +93,18 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         }
       }
     }
+  }
 
-    Task {
-      for await _ in Defaults.updates(.imageMaxHeight, initial: false) {
-        for item in items {
-          await item.cleanupImages()
-        }
-      }
+  @MainActor
+  func apply(filter: HistoryFilter) {
+    self.filter = filter
+
+    for item in all {
+      item.isVisible = filter.matches(item.kind)
     }
+
+    updateUnpinnedShortcuts()
+    AppState.shared.navigator.highlightFirst()
   }
 
   @MainActor
@@ -106,6 +112,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     let descriptor = FetchDescriptor<HistoryItem>()
     let results = try Storage.shared.context.fetch(descriptor)
     all = sorter.sort(results).map { HistoryItemDecorator($0) }
+    if filter != .all {
+      all.forEach { $0.isVisible = filter.matches($0.kind) }
+    }
     items = all
 
     limitHistorySize(to: Defaults[.size])
@@ -191,6 +200,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       items = all
       updateUnpinnedShortcuts()
       AppState.shared.popup.needsResize = true
+    }
+
+    if filter != .all {
+      itemDecorator.isVisible = filter.matches(itemDecorator.kind)
     }
 
     return itemDecorator
@@ -327,6 +340,22 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         return
       }
     }
+
+    Task {
+      searchQuery = ""
+    }
+  }
+
+  /// Copies the item and pastes it into the frontmost application, regardless of `pasteByDefault`.
+  @MainActor
+  func paste(_ item: HistoryItemDecorator?) {
+    guard let item else {
+      return
+    }
+
+    AppState.shared.popup.close()
+    Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
+    Clipboard.shared.paste()
 
     Task {
       searchQuery = ""

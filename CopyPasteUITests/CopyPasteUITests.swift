@@ -493,14 +493,14 @@ class CopyPasteUITests: XCTestCase {
       keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
     shiftDown.flags = [.maskCommand]
     shiftUp.flags = [.maskCommand]
-    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
-    let cUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: false)!
-    cDown.flags = [.maskCommand, .maskShift]
-    cUp.flags = [.maskCommand, .maskShift]
+    let vDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_V), keyDown: true)!
+    let vUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_V), keyDown: false)!
+    vDown.flags = [.maskCommand, .maskShift]
+    vUp.flags = [.maskCommand, .maskShift]
     commandDown.post(tap: .cghidEventTap)
     shiftDown.post(tap: .cghidEventTap)
-    cDown.post(tap: .cghidEventTap)
-    cUp.post(tap: .cghidEventTap)
+    vDown.post(tap: .cghidEventTap)
+    vUp.post(tap: .cghidEventTap)
     shiftUp.post(tap: .cghidEventTap)
     commandUp.post(tap: .cghidEventTap)
   }

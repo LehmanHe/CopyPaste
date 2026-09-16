@@ -33,7 +33,6 @@ extension Defaults.Keys {
       "net.antelle.keeweb"
     ])
   )
-  static let imageMaxHeight = Key<Int>("imageMaxHeight", default: 40)
   static let lastReviewRequestedAt = Key<Date>("lastReviewRequestedAt", default: Date.now)
   static let menuIcon = Key<MenuIcon>("menuIcon", default: .copyPaste)
   static let migrations = Key<[String: Bool]>("migrations", default: [:])
@@ -57,6 +56,6 @@ extension Defaults.Keys {
   static let suppressClearAlert = Key<Bool>("suppressClearAlert", default: false)
   static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 1200, height: 230))
   static let windowPosition = Key<NSPoint>("windowPosition", default: NSPoint(x: 0.5, y: 0.8))
-  static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false)
+  static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: true)
   static let previewWidth = Key<CGFloat>("previewWidth", default: 400)
 }

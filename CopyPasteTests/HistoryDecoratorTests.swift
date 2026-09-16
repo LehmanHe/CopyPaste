@@ -6,7 +6,6 @@ import Defaults
 class HistoryItemDecoratorTests: XCTestCase {
   let boldFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
   let savedHighlightMatch = Defaults[.highlightMatch]
-  let savedImageMaxHeight = Defaults[.imageMaxHeight]
 
   var firstCopiedAt: Date! {
     let formatter = DateFormatter()
@@ -23,12 +22,10 @@ class HistoryItemDecoratorTests: XCTestCase {
   override func setUp() {
     super.setUp()
     Defaults[.highlightMatch] = .bold
-    Defaults[.imageMaxHeight] = 40
   }
 
   override func tearDown() {
     super.tearDown()
-    Defaults[.imageMaxHeight] = savedImageMaxHeight
     Defaults[.highlightMatch] = savedHighlightMatch
   }
 
@@ -68,12 +65,39 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, image.size)
   }
 
-  // We also need to add test for image with width bigger than max width.
-  func testImageWithHeightBiggerThanMaxHeight() {
-    let image = NSImage(named: "NSApplicationIcon")!
+  func testImageBiggerThanThumbnail() {
+    let size = NSSize(width: 800, height: 600)
+    let image = NSImage(size: size, flipped: false) { rect in
+      NSColor.red.drawSwatch(in: rect)
+      return true
+    }
     let itemDecorator = historyItemDecorator(image)
     itemDecorator.sizeImages()
-    XCTAssertEqual(itemDecorator.thumbnailImage!.size, NSSize(width: 40, height: 40))
+
+    let thumbnail = itemDecorator.thumbnailImage!
+    XCTAssertLessThanOrEqual(thumbnail.size.width, HistoryItemDecorator.thumbnailImageSize.width)
+    XCTAssertLessThanOrEqual(thumbnail.size.height, HistoryItemDecorator.thumbnailImageSize.height)
+    XCTAssertEqual(thumbnail.size.width / thumbnail.size.height, size.width / size.height, accuracy: 0.01)
+  }
+
+  func testKindOfText() {
+    XCTAssertEqual(historyItemDecorator("foo").kind, .text)
+  }
+
+  func testKindOfLink() {
+    XCTAssertEqual(historyItemDecorator("https://example.com/page").kind, .link)
+  }
+
+  func testKindOfColor() {
+    XCTAssertEqual(historyItemDecorator("#FF0000").kind, .color)
+  }
+
+  func testKindOfImage() {
+    XCTAssertEqual(historyItemDecorator(NSImage(named: "StatusBarMenuImage")!).kind, .image)
+  }
+
+  func testKindOfFile() {
+    XCTAssertEqual(historyItemDecorator(URL(fileURLWithPath: "/tmp/foo.bar")).kind, .file)
   }
 
   func testFile() {

@@ -5,7 +5,6 @@ import Settings
 
 struct AppearanceSettingsPane: View {
   @Default(.pinTo) private var pinTo
-  @Default(.imageMaxHeight) private var imageHeight
   @Default(.previewDelay) private var previewDelay
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
@@ -14,13 +13,6 @@ struct AppearanceSettingsPane: View {
   @Default(.searchVisibility) private var searchVisibility
   @Default(.showFooter) private var showFooter
   @Default(.showApplicationIcons) private var showApplicationIcons
-
-  private let imageHeightFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 1
-    formatter.maximum = 200
-    return formatter
-  }()
 
   private let numberOfItemsFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
@@ -54,16 +46,6 @@ struct AppearanceSettingsPane: View {
         .labelsHidden()
         .frame(width: 141, alignment: .leading)
         .help(Text("PinToTooltip", tableName: "AppearanceSettings"))
-      }
-
-      Settings.Section(label: { Text("ImageHeight", tableName: "AppearanceSettings") }) {
-        HStack {
-          TextField("", value: $imageHeight, formatter: imageHeightFormatter)
-            .frame(width: 120)
-            .help(Text("ImageHeightTooltip", tableName: "AppearanceSettings"))
-          Stepper("", value: $imageHeight, in: 1...200)
-            .labelsHidden()
-        }
       }
 
       Settings.Section(label: { Text("PreviewDelay", tableName: "AppearanceSettings") }) {
