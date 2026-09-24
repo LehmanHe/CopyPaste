@@ -43,6 +43,8 @@ class AppState: Sendable {
     preview = SlideoutController(
       onContentResize: { _ in },
       onSlideoutResize: { _ in })
+    // The card panel has no preview slideout, and toggling it would resize the panel window.
+    preview.disableAutoOpen()
   }
 
   @MainActor

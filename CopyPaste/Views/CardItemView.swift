@@ -105,17 +105,21 @@ struct CardItemView: View {
 
   private var imagePreview: some View {
     ZStack(alignment: .bottom) {
-      if let image = item.thumbnailImage {
-        Image(nsImage: image)
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-      } else {
-        Image(systemName: "photo")
-          .font(.system(size: 30, weight: .light))
-          .foregroundStyle(.tertiary)
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-      }
+      // An aspect-filled image reports its overflowing size to the layout, which would push the header
+      // out of tall or square images; drawing it in an overlay keeps it within the body's bounds.
+      Color.clear
+        .overlay {
+          if let image = item.thumbnailImage {
+            Image(nsImage: image)
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+          } else {
+            Image(systemName: "photo")
+              .font(.system(size: 30, weight: .light))
+              .foregroundStyle(.tertiary)
+          }
+        }
+        .clipped()
 
       if let dimensions = item.imageDimensions {
         Text(verbatim: dimensions)
@@ -174,7 +178,8 @@ struct CardItemView: View {
         if let attributedTitle = item.attributedTitle {
           Text(attributedTitle)
         } else {
-          Text(verbatim: item.title)
+          // The title replaces line breaks with symbols for single-line rows, cards show the real lines.
+          Text(verbatim: item.text.shortened(to: 1_000))
         }
       }
       .font(.system(size: 13))
