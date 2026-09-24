@@ -5,5 +5,36 @@
     <link>https://github.com/LehmanHe/CopyPaste/releases/latest/download/appcast.xml</link>
     <description>Most recent changes with links to updates.</description>
     <language>zh-cn</language>
+    <item>
+      <title>1.0.1</title>
+      <pubDate>Thu, 24 Sep 2026 09:05:12 +0000</pubDate>
+      <sparkle:version>61</sparkle:version>
+      <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:releaseNotesLink>https://github.com/LehmanHe/CopyPaste/releases/tag/v1.0.1</sparkle:releaseNotesLink>
+      <description><![CDATA[<h2 dir="auto">更新内容</h2>
+<ul dir="auto">
+<li><strong>修复自动更新</strong>：CopyPaste 现在每天会自动检查一次新版本，有更新时弹窗提示，一键升级。也可以在「设置 → 通用」里点「检查更新」</li>
+<li><strong>安装引导</strong>：DMG 里附带「打不开请看这里.txt」，一步步说明如何在 macOS 15 / 26 上放行首次打开</li>
+</ul>
+<blockquote>
+<p dir="auto">如果你装的是 1.0.0：它的更新地址配置有误，收不到这次更新，请手动下载下方的 DMG 覆盖安装一次，之后就能自动更新了。</p>
+</blockquote>
+<h2 dir="auto">安装</h2>
+<ol dir="auto">
+<li>下载下方的 <code class="notranslate">CopyPaste-1.0.1.dmg</code>，打开后把 CopyPaste 拖进「应用程序」</li>
+<li>双击打开。如果提示「Apple 无法验证 CopyPaste 是否包含恶意软件」：
+<ul dir="auto">
+<li><strong>macOS 15 及以上</strong>：先点「完成」，然后打开「系统设置 → 隐私与安全性」，滚到最下面的「安全性」，点 <strong>「仍要打开」</strong> 并输入开机密码（这个按钮只在尝试打开后约 1 小时内出现）</li>
+<li><strong>macOS 14</strong>：在「应用程序」里右键 CopyPaste →「打开」→「打开」</li>
+<li><strong>任意版本</strong>：在终端执行 <code class="notranslate">xattr -dr com.apple.quarantine /Applications/CopyPaste.app</code></li>
+</ul>
+</li>
+<li>第一次粘贴时，在「系统设置 → 隐私与安全性 → 辅助功能」中打开 CopyPaste 的开关</li>
+</ol>
+<p dir="auto">CopyPaste 是免费开源软件，作者没有付费的 Apple 开发者账号，无法做 Apple 公证，所以首次打开需要手动放行一次；之后的自动更新不需要再操作。</p>
+<p dir="auto">系统要求：macOS 14 Sonoma 及以上，同时支持 Apple 芯片和 Intel。</p>]]></description>
+      <enclosure url="https://github.com/LehmanHe/CopyPaste/releases/download/v1.0.1/CopyPaste-1.0.1.dmg" sparkle:edSignature="w7Ym6xvIvQ4Es+0BjVMMcX/TbIgXwiMsJks0+LFpgOgAlT6AYwxRb53H2BqfWPyJAFaxjC9rBggRfHeraisFCA==" length="3641221" type="application/octet-stream"/>
+    </item>
   </channel>
 </rss>
