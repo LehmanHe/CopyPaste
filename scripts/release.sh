@@ -58,8 +58,9 @@ SIGN_UPDATE=$(find ~/Library/Developer/Xcode/DerivedData -path "*/artifacts/spar
 
 echo ""
 echo "Signing update..."
-SIGNATURE_ATTRS=$("$SIGN_UPDATE" "$DMG")
-[[ "$SIGNATURE_ATTRS" == *"sparkle:edSignature="* ]] || die "sign_update failed: ${SIGNATURE_ATTRS}"
+SIGNATURE_ATTRS=$("$SIGN_UPDATE" "$DMG") \
+  || die "sign_update failed; allow keychain access to the Sparkle private key (choose Always Allow) and retry"
+[[ "$SIGNATURE_ATTRS" == *"sparkle:edSignature="* ]] || die "unexpected sign_update output: ${SIGNATURE_ATTRS}"
 
 echo "Updating ${APPCAST}..."
 NOTES_HTML=$(gh api -X POST /markdown -f text="$(cat "$NOTES_FILE")" -f mode=gfm -f context="$REPO")
