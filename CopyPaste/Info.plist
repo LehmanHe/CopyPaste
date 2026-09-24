@@ -28,11 +28,15 @@
 	<string>Copyright © Alexey Rodionov</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
 	<key>SUEnableDownloaderService</key>
 	<true/>
 	<key>SUEnableInstallerLauncherService</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/p0deje/CopyPaste/master/appcast.xml</string>
+	<string>https://github.com/LehmanHe/CopyPaste/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>rIXZNlu6IyqSa+6jXEPQE3d7X6IdW1Br/4HhUNRmZU4=</string>
 </dict>
 </plist>

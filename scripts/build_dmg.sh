@@ -88,6 +88,7 @@ rm -rf "$DMG_DIR"
 mkdir -p "$DMG_DIR"
 cp -R "$APP_PATH" "$DMG_DIR/"
 ln -s /Applications "$DMG_DIR/Applications"
+cp "${PROJECT_DIR}/scripts/dmg/"*.txt "$DMG_DIR/"
 
 hdiutil create \
     -volname "$APP_NAME" \

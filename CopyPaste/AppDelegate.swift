@@ -93,6 +93,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     migrateUserDefaults()
     disableUnusedGlobalHotkeys()
 
+    if !CommandLine.arguments.contains("enable-testing") {
+      _ = SoftwareUpdater.shared
+    }
+
     let panelSize = PopupPosition.bottom.panelSize()
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: panelSize),

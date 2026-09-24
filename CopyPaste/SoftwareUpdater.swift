@@ -2,6 +2,10 @@ import Sparkle
 
 @Observable
 class SoftwareUpdater {
+  // Sparkle only schedules background checks while an updater is alive,
+  // so a single instance is started at launch and shared with Settings.
+  static let shared = SoftwareUpdater()
+
   var automaticallyChecksForUpdates = false {
     didSet {
       updater.automaticallyChecksForUpdates = automaticallyChecksForUpdates
